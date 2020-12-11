@@ -92,30 +92,23 @@ document.addEventListener('mouseover', function(e){
 document.addEventListener('click', function(e){
     // get width value
     const width = document.querySelector('.contnaire').computedStyleMap().get('width').value;
-    // create multi div
-    const ele = e.target;
+
+    const ele = e.target.attributes.type.value;
+    const etarget = e.target.value;
+    console.log(etarget);
     //check if the target is correcte
-    if(ele.attributes.type.value == 'range'){
+    if(ele == 'range'){
         // get range value
-        const val = e.target.value;
+        let val = etarget;
         //size calculate
         let sizew = (width-val)/val ,
         sizeh = (width-val)/val ;
         // convert to string
         let stringheight = sizeh.toFixed().toString()+'px',
             stringwidth = sizew.toFixed().toString()+'px';
+            console.log(stringheight,stringwidth);
 
-        //set new width and heigth
-        let divlength = document.querySelectorAll('.contnaire >div');
-            for (let index = 0; index < divlength.length; index++) {
-                // select ele by index
-                const element = divlength[index];
-                // set new width
-                element.style.width = stringwidth;
-                // set new height
-                element.style.height = stringheight;
-            }
-            
+           
             //create box 
             const divlen = divcontnaire.children.length;
             if (divlen < val*val ) {
@@ -134,15 +127,25 @@ document.addEventListener('click', function(e){
                 divcontnaire.style.setProperty('grid-template-columns', `repeat( ${val} , 1fr)`);
                 divcontnaire.style.setProperty('grid-template-rows', `repeat( ${val} , 1fr)`);
             } 
+                    //set new width and heigth
+        let divlength = document.querySelectorAll('.contnaire >div');
+            for (let index = 0; index < divlength.length; index++) {
+                // select ele by index
+                const element = divlength[index];
+                // set new width
+                divlength[index].style.width = stringwidth;
+                // set new height
+                divlength[index].style.height = stringheight;
+            }
+ 
     }// clear button
-    else if (ele.attributes.type.value == 'button') {
+     if (ele == 'button') {
         divcontnaire.innerHTML = '';
         createElements(val*val, 'div', divcontnaire, 'class', 'divsize div_', '', '','');
         divcontnaire.style.setProperty('grid-template-columns', `repeat( ${val} , 1fr)`);
         divcontnaire.style.setProperty('grid-template-rows', `repeat( ${val} , 1fr)`);
-    }else {
-        console.log(e.target);
     }
+
 });
 
 //  }
